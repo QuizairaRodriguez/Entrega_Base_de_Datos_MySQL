@@ -23,11 +23,8 @@ DROP TABLE IF EXISTS usuarios;
 CREATE TABLE usuarios(
   id_usuario INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   nombre VARCHAR(45) COLLATE utf8_unicode_ci NOT NULL,
-  email VARCHAR(45) COLLATE utf8_unicode_ci NOT NULL UNIQUE,
-  nota_id INT(10) UNSIGNED NOT NULL, 
-  PRIMARY KEY (id_usuario),
-  KEY usuarios_nota_id_foreign (nota_id),
-  CONSTRAINT usuarios_nota_id_foreign FOREIGN KEY (nota_id) REFERENCES notas(id_nota)
+  email VARCHAR(45) COLLATE utf8_unicode_ci NOT NULL UNIQUE, 
+  PRIMARY KEY (id_usuario)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -35,16 +32,16 @@ CREATE TABLE usuarios(
 
 LOCK TABLES usuarios WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO usuarios VALUES (1,'Quizaira','kiss02andre@gmail.com',1),
-(2,'Daniel','danielrojash19@gmail.com',2),
-(3,'Camila','cami123@gmail.com',3),
-(4,'Luisa','lu_lopez@hotmail.com',4),
-(5,'Lucas','lucas_s@hotmail.com',5),
-(6,'Raiza','rapico72@gmail.com',6),
-(7,'Gustavo','gustavo.n@gmail.com',7),
-(8,'Thaymara','thay_c@hotmail.com',8),
-(9,'Patricia','patog@gmail.com',9),
-(10,'Jesús','jrodriguez@gmail.com',10);
+INSERT INTO usuarios VALUES (1,'Quizaira','kiss02andre@gmail.com'),
+(2,'Daniel','danielrojash19@gmail.com'),
+(3,'Camila','cami123@gmail.com'),
+(4,'Luisa','lu_lopez@hotmail.com'),
+(5,'Lucas','lucas_s@hotmail.com'),
+(6,'Raiza','rapico72@gmail.com'),
+(7,'Gustavo','gustavo.n@gmail.com'),
+(8,'Thaymara','thay_c@hotmail.com'),
+(9,'Patricia','patog@gmail.com'),
+(10,'Jesús','jrodriguez@gmail.com');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +53,11 @@ DROP TABLE IF EXISTS gestiones;
 CREATE TABLE gestiones(
   id_gestion INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   estado VARCHAR(45) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (id_gestion)
+  fecha DATETIME NOT NULL,
+  nota_id INT(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (id_gestion),
+  KEY gestiones_nota_id_foreign (nota_id),
+  CONSTRAINT gestiones_nota_id_foreign FOREIGN KEY (nota_id) REFERENCES notas (id_nota)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -64,51 +65,17 @@ CREATE TABLE gestiones(
 
 LOCK TABLES gestiones WRITE;
 /*!40000 ALTER TABLE `gestiones` DISABLE KEYS */;
-INSERT INTO gestiones VALUES (1,'Creada'),
-(2,'Creada'),
-(3,'Creada'),
-(4,'Creada'),
-(5,'Creada'),
-(6,'Creada'),
-(7,'Creada'),
-(8,'Creada'),
-(9,'Creada'),
-(10,'Creada');
+INSERT INTO gestiones VALUES (1,'Creada','2022-04-06 00:00:00',1),
+(2,'Creada','2022-04-06 00:00:00',2),
+(3,'Creada','2022-04-06 00:00:00',3),
+(4,'Creada','2022-04-06 00:00:00',4),
+(5,'Creada','2022-04-06 00:00:00',5),
+(6,'Creada','2022-04-06 00:00:00',6),
+(7,'Creada','2022-04-06 00:00:00',7),
+(8,'Creada','2022-04-06 00:00:00',8),
+(9,'Creada','2022-04-06 00:00:00',9),
+(10,'Creada','2022-04-06 00:00:00',10);
 /*!40000 ALTER TABLE `gestiones` ENABLE KEYS */;
-UNLOCK TABLES;
-
--- Estructura de la Tabla para la Tabla 'nota_gestion'
-
-DROP TABLE IF EXISTS nota_gestion;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE nota_gestion (
-  id_nota_gestion INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  nota_id INT(10) UNSIGNED NOT NULL,
-  gestion_id INT(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (id_nota_gestion),
-  KEY nota_gestion_nota_id_foreign (nota_id),
-  KEY nota_gestion_gestion_id_foreign (gestion_id),
-  CONSTRAINT nota_gestion_nota_id_foreign FOREIGN KEY (nota_id) REFERENCES notas(id_nota),
-  CONSTRAINT nota_gestion_gestion_id_foreign FOREIGN KEY (gestion_id) REFERENCES gestiones(id_gestion)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
--- Datos de la Tabla 'nota_gestion'
-
-LOCK TABLES nota_gestion WRITE;
-/*!40000 ALTER TABLE `nota_gestion` DISABLE KEYS */;
-INSERT INTO nota_gestion VALUES (1,1,1),
-(2,2,2),
-(3,3,3),
-(4,4,4),
-(5,5,5),
-(6,6,6),
-(7,7,7),
-(8,8,8),
-(9,9,9),
-(10,10,10);
-/*!40000 ALTER TABLE `nota_gestion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 -- Estructura de la Tabla para la Tabla 'notas'
@@ -126,7 +93,7 @@ CREATE TABLE notas(
   usuario_id INT(10) UNSIGNED NOT NULL,
   PRIMARY KEY (id_nota),
   KEY notas_usuario_id_foreign (usuario_id),
-  CONSTRAINT notas_usuario_id_foreign FOREIGN KEY (usuario_id) REFERENCES usuarios(id_usuario)
+  CONSTRAINT notas_usuario_id_foreign FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
